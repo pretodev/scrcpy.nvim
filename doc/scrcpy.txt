@@ -1,0 +1,107 @@
+*scrcpy.txt*  Integração do Neovim com scrcpy
+
+*scrcpy.nvim*                                        *scrcpy*
+
+==============================================================================
+CONTEÚDO                                             *scrcpy-contents*
+
+  1. Introdução .................... |scrcpy-introduction|
+  2. Requisitos .................... |scrcpy-requirements|
+  3. Instalação .................... |scrcpy-installation|
+  4. Uso ........................... |scrcpy-usage|
+  5. Comandos ...................... |scrcpy-commands|
+  6. Configuração .................. |scrcpy-configuration|
+  7. Solução de problemas .......... |scrcpy-troubleshooting|
+  8. Licença ....................... |scrcpy-license|
+
+==============================================================================
+1. Introdução                                        *scrcpy-introduction*
+
+scrcpy.nvim é um plugin para Neovim que integra com a ferramenta scrcpy,
+permitindo espelhar e gravar a tela de dispositivos Android diretamente do
+editor.
+
+O plugin fornece comandos simples para iniciar e parar o espelhamento e a
+gravação da tela, bem como configurações personalizáveis para atender às suas
+necessidades.
+
+==============================================================================
+2. Requisitos                                        *scrcpy-requirements*
+
+- Neovim 0.5.0 ou superior
+- scrcpy instalado e acessível no PATH
+- Um dispositivo Android com depuração USB ativada
+
+==============================================================================
+3. Instalação                                        *scrcpy-installation*
+
+Usando lazy.nvim: >lua
+  return {
+    "seu-username/scrcpy.nvim",
+    cmd = { "ScrcpyMirror", "ScrcpyRecordStart", "ScrcpyRecordStop" },
+    config = function()
+      require("scrcpy").setup({
+        -- Configurações opcionais
+      })
+    end,
+  }
+<
+
+==============================================================================
+4. Uso                                               *scrcpy-usage*
+
+1. Conecte seu dispositivo Android via USB com a depuração USB ativada
+2. Execute um dos comandos do plugin
+3. Para interromper o espelhamento, feche a janela do scrcpy ou use
+   `:ScrcpyRecordStop` se estiver gravando
+
+==============================================================================
+5. Comandos                                          *scrcpy-commands*
+
+*:ScrcpyMirror*        Inicia o espelhamento da tela do dispositivo
+
+*:ScrcpyRecordStart*   Inicia o espelhamento e a gravação da tela do dispositivo
+
+*:ScrcpyRecordStop*    Para a gravação e o espelhamento, salvando o arquivo de
+                      vídeo no diretório configurado
+
+==============================================================================
+6. Configuração                                      *scrcpy-configuration*
+
+Você pode personalizar o comportamento do plugin durante a configuração: >lua
+  require("scrcpy").setup({
+    -- Caminho para o executável scrcpy (padrão: "scrcpy")
+    scrcpy_path = "scrcpy",
+    
+    -- Diretório onde as gravações serão salvas (padrão: $HOME)
+    record_dir = os.getenv("HOME"),
+    
+    -- Duração das notificações em ms (padrão: 3000)
+    notification_duration = 3000,
+    
+    -- Opções padrão para o scrcpy
+    default_options = {
+      "--no-audio",       -- Desativa captura de áudio
+      "--stay-awake",     -- Mantém o dispositivo acordado
+      -- Adicione outras opções aqui
+    },
+  })
+<
+
+==============================================================================
+7. Solução de problemas                             *scrcpy-troubleshooting*
+
+- Certifique-se de que o scrcpy está corretamente instalado e funcionando em
+  seu sistema
+- Verifique se o dispositivo está conectado e com a depuração USB ativada
+- Se encontrar problemas, tente executar o scrcpy diretamente do terminal para
+  verificar se há erros específicos
+- Se estiver usando dispositivos múltiplos, você pode precisar especificar o
+  dispositivo usando as opções adicionais do scrcpy
+
+==============================================================================
+8. Licença                                           *scrcpy-license*
+
+MIT
+
+vim:tw=78:ts=8:ft=help:norl:
